@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const morgan = require('morgan');
 const path = require('path')
+const apiRouter = require('./apiRoutes')
 
 const { db } = require('./db');
 
@@ -12,10 +13,10 @@ app.use(express.json());
 
 // static file usage
 app.use(express.static(path.join(__dirname, '../public')))
+app.use('/api', apiRouter);
+
 
 const PORT = 8080;
-
-
 db.sync()
 .then(() => {
     console.log('db connected...');
