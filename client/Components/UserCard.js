@@ -24,13 +24,15 @@ export default class UserCard extends Component {
 
     handleSave(managerObj, user) {
         // will associate the name with selected manager
-        const contentToSend = {
+        let content;
+        managerObj ? content = {
             managedUser: user,
-            managerId: managerObj ? managerObj.id : null,
-            managerName: managerObj ? managerObj.name : null
+            managerId: managerObj.id,
+            managerName: managerObj.name
         }
-        console.log(contentToSend)
-        axios.put(`/api/users/${user.id}`, contentToSend)
+        : content = ''
+
+        axios.put(`/api/users/${user.id}`, content)
         .then(resp => console.log(resp.data))
         .catch(e => console.log(e));
     }
@@ -40,9 +42,15 @@ export default class UserCard extends Component {
         const {currentUser, users} = this.state;
         const userIdObj = {};
         let defaultName = '';
+        let managedCount = 0;
         users.forEach(userObj => {
-            if (userObj.id = user.managerId) {
+            userIdObj[userObj.name] = userObj; // remapping users obj so keys could be names
+            if (userObj.id === user.managerId) {
                 defaultName = userObj.name
+            }
+            // if the user at hands id is equal to multiple manager ids then increment
+            if (user.id === userObj.managerId) {
+                managedCount++;
             }
         })
         return(
@@ -52,14 +60,13 @@ export default class UserCard extends Component {
                 </header>
                 <div className="card-content">
                     <div className="content">
-                        <p>Manages X users</p>
+                        <p>{`Manages ${managedCount} users`}</p>
                         <br />
                         <div className="control has-icons-left">
                             <div className="select">
                                 <select form='selectManager' value={user.managerId ? defaultName : currentUser} onChange={this.handleChange}>
                                     <option>None</option>
                                     {users.map(manager => {
-                                        userIdObj[manager.name] = {manager}
                                         // user can't be their own manager
                                         if (manager.name !== user.name) {
                                             return <option key={manager.id + manager.name} value={manager.name}>{manager.name}</option>
@@ -74,7 +81,10 @@ export default class UserCard extends Component {
                     </div>
                 </div>
                 <footer className="card-footer">
-                    <a className="card-footer-item" onClick={() => this.handleSave(userIdObj[currentUser], user)}>Save</a>
+                    <a className="card-footer-item" onClick={() => {
+                        currentUser ? this.handleSave(userIdObj[currentUser], user)
+                        : this.handleSave(currentUser, user)
+                        }}>Save</a>
                     <a className="card-footer-item">Delete</a>
                 </footer>
             </div>

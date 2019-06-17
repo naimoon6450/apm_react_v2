@@ -11,7 +11,6 @@ apiRouter.put('/users/:id', (req, res, next) => {
     const id = req.params.id;
     const mId = req.body.managerId ? req.body.managerId : null;
     // if there's a manager ID
-    console.log(mId);
     mId 
         ? User.findByPk(id)
             .then(user => {
@@ -22,7 +21,7 @@ apiRouter.put('/users/:id', (req, res, next) => {
         : User.findByPk(id)
             .then(user => {
                 user.setManager(null);
-                res.json(`${req.body.managedUser.name} is not being managed`);
+                res.json(`${user.name} is not being managed`);
             })
             .catch(next);
 

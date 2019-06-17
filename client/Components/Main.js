@@ -34,7 +34,7 @@ class Main extends Component {
                     </section>
                     <Navbar userCount={this.state.users.length} />
                     <Route exact path="/" render={() => <Users users={this.state.users} />} />
-                    <Route path="/managers" component={Managers} />
+                    <Route path="/managers" render={() => <Managers users={this.state.users} />} />
 
                 </div>
             </HashRouter>

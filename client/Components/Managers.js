@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Managers = () => {
+const Managers = (props) => {
     return(
 
         <div id="managers">
