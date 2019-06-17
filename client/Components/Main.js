@@ -33,7 +33,7 @@ class Main extends Component {
                         </div>
                     </section>
                     <Navbar userCount={this.state.users.length} />
-                    <Route exact path="/" component={Users} />
+                    <Route exact path="/" render={() => <Users users={this.state.users} />} />
                     <Route path="/managers" component={Managers} />
 
                 </div>
