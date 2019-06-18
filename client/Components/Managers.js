@@ -1,21 +1,26 @@
 import React from 'react'
 
 const Managers = (props) => {
+    const { users } = props;
+    // get all the manager Ids?
+    const managerIds = []
+    users.forEach(user => {
+        user.managerId && managerIds.push(user.managerId);
+    })
     return(
-
-        <div id="managers">
-            <div class="container">
-                <div class="notification">
-                    MANAGER 1
+        users.map(user => {
+            return managerIds.includes(user.id)
+            ?   <div key={user.id} id="managers">
+                    <div className="container">
+                        <div className="notification">
+                            {user.name}
+                        </div>
+                    </div>
+                    <br />
                 </div>
-            </div>
-            <br />
-            <div class="container">
-                <div class="notification">
-                    MANAGER 2
-                </div>
-            </div>
-        </div>
+            : ''
+        })
+        
     )
 }
 

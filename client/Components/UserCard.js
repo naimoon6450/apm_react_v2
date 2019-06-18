@@ -11,6 +11,7 @@ export default class UserCard extends Component {
             currentUser: ''
         }
         this.handleChange = this.handleChange.bind(this);
+        this.handleSave = this.handleSave.bind(this);
     }
     componentDidMount() {
         axios.get('/api/users')
@@ -19,6 +20,7 @@ export default class UserCard extends Component {
     }
 
     handleChange(e) {
+        console.log(e.target.value)
         this.setState({currentUser: e.target.value})
     }
 
@@ -41,7 +43,7 @@ export default class UserCard extends Component {
         const {user} = this.props;
         const {currentUser, users} = this.state;
         const userIdObj = {};
-        let defaultName = '';
+        let defaultName;
         let managedCount = 0;
         users.forEach(userObj => {
             userIdObj[userObj.name] = userObj; // remapping users obj so keys could be names
@@ -64,7 +66,7 @@ export default class UserCard extends Component {
                         <br />
                         <div className="control has-icons-left">
                             <div className="select">
-                                <select form='selectManager' value={user.managerId ? defaultName : currentUser} onChange={this.handleChange}>
+                                <select form='selectManager' value={currentUser ? currentUser : defaultName} onChange={this.handleChange}>
                                     <option>None</option>
                                     {users.map(manager => {
                                         // user can't be their own manager
