@@ -3,11 +3,11 @@ import UserCard from './UserCard'
 
 
 const Users  = (props) => {
-    const {users} = props;
+    const {users, history, location} = props;
     return (
         <div id="users">
             {users.map(user => {
-                return <UserCard key={user.id} user={user} />
+                return <UserCard key={user.id} user={user} location={location} history={history} />
             })}
         </div>
     )

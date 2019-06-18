@@ -3,6 +3,7 @@ import { HashRouter, Route, Link } from 'react-router-dom'
 import Navbar from './Navbar'
 import Users from './Users'
 import Managers from './Managers'
+import CreateUser from './CreateUser'
 import axios from 'axios'
 
 class Main extends Component {
@@ -33,8 +34,9 @@ class Main extends Component {
                         </div>
                     </section>
                     <Navbar users={this.state.users} />
-                    <Route exact path="/" render={() => <Users users={this.state.users} />} />
+                    <Route exact path="/" render={({history}) => <Users history={history} users={this.state.users} />} />
                     <Route path="/managers" render={() => <Managers users={this.state.users} />} />
+                    <Route path="/create" render={({history}) => <CreateUser history={history} users={this.state.users} />} />
 
                 </div>
             </HashRouter>

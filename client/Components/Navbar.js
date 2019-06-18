@@ -12,7 +12,7 @@ const Navbar = (props) => {
     return (
         <nav className="navbar is-link" role="navigation" aria-label="main navigation">
             <div className="navbar-brand">
-                <Link to='/' className="navbar-item">Users ({users.length ? users.length : 0})</Link>
+                <Link to='/' replace className="navbar-item">Users ({users.length ? users.length : 0})</Link>
                 <Link to='/managers' className="navbar-item">Managers ({managerIds.length ? managerIds.length : 0})</Link>
                 <Link to='/create' className="navbar-item">Create User</Link>
             </div>

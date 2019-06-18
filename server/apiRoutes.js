@@ -7,6 +7,18 @@ apiRouter.get('/users', (req, res, next) => {
     .catch(next)
 })
 
+apiRouter.post('/users', (req, res, next) => {
+    User.create(req.body)
+    .then((resp) => res.json(resp))
+    .catch(next);
+})
+
+apiRouter.delete('/users', (req, res, next) => {
+    User.destroy({where: req.body})
+    .then((resp) => res.json(resp))
+    .catch(next)
+})
+
 apiRouter.put('/users/:id', (req, res, next) => {
     const id = req.params.id;
     const mId = req.body.managerId ? req.body.managerId : null;

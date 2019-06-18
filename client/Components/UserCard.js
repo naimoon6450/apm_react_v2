@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import Users from './Users'
 import axios from 'axios'
+import {Link } from 'react-router-dom'
 
 export default class UserCard extends Component {
 
@@ -12,6 +13,8 @@ export default class UserCard extends Component {
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSave = this.handleSave.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
+        this.reload = this.reload.bind(this);
     }
     componentDidMount() {
         axios.get('/api/users')
@@ -20,7 +23,6 @@ export default class UserCard extends Component {
     }
 
     handleChange(e) {
-        console.log(e.target.value)
         this.setState({currentUser: e.target.value})
     }
 
@@ -37,6 +39,27 @@ export default class UserCard extends Component {
         axios.put(`/api/users/${user.id}`, content)
         .then(resp => console.log(resp.data))
         .catch(e => console.log(e));
+    }
+
+    handleDelete(user) {
+        const deleteData = {
+            name: user,
+        }
+        const filtered = this.state.users.filter(currUser => {
+            return currUser.name !== user && currUser
+        })
+        axios.delete('/api/users', {data: deleteData})
+        .then(resp => {
+            this.setState({users: [...filtered]})
+            
+        })
+        .catch(e => console.error(e));
+    }
+
+    reload() {
+        axios.get('/users')
+        .then(raw => this.setState({users: raw.data}))
+        .catch(e => console.error(e));
     }
 
     render() {
@@ -87,7 +110,7 @@ export default class UserCard extends Component {
                         currentUser ? this.handleSave(userIdObj[currentUser], user)
                         : this.handleSave(currentUser, user)
                         }}>Save</a>
-                    <a className="card-footer-item">Delete</a>
+                    <a className="card-footer-item" onClick={() => this.handleDelete(user.name)}>Delete</a>
                 </footer>
             </div>
         )

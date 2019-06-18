@@ -2,7 +2,7 @@ h1 {
     font-family: 'Montserrat', sans-serif;
 }
 
-#users, #managers {
+#users, #managers, #newUserForm {
     margin: 2em;
 }
 
